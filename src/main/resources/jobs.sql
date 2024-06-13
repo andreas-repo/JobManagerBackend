@@ -1,0 +1,1 @@
+CREATE TABLE jobs(id integer not null, iscompleted boolean, firstname VARCHAR(255), lastname VARCHAR(255), emailaddress VARCHAR(255), phonenumber VARCHAR(255), address VARCHAR(255), city VARCHAR(255), province VARCHAR(255), postalcode VARCHAR(255), country VARCHAR(255), printertype VARCHAR(255), date DATE, time TIME);
