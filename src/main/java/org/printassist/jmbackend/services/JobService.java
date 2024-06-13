@@ -4,7 +4,7 @@ import org.printassist.jmbackend.repositories.entities.Job;
 
 public interface JobService {
 	void addJob(Job job);
-	void getJob();
+	Job getJob(long id);
 	void updateJob();
 	void deleteJob();
 }
