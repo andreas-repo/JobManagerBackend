@@ -27,7 +27,7 @@ import lombok.Setter;
 public class Job {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	@Column(name = "iscompleted")
 	private boolean isCompleted;
