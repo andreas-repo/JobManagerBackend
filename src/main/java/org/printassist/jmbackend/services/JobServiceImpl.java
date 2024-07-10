@@ -28,6 +28,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public void createJob(Job job) {
+
 		jobRepository.save(job);
 	}
 
@@ -71,7 +72,6 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Job findJobByEmailAddress(String emailAddress) {
-		Job result = customJobRepository.findJobThroughEmail(emailAddress);
-		return result;
+		return customJobRepository.findJobThroughEmail(emailAddress);		;
 	}
 }
