@@ -12,4 +12,5 @@ public interface JobService {
 	void deleteJob(long id);
 	List<Job> getAllJobs();
 	Job findJobByEmailAddress(String emailAddress);
+	void deleteJobByEmailAddress(String emailAddress);
 }

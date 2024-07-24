@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -67,5 +66,10 @@ public class JobController {
 	@GetMapping("/findJob/{emailAddress}")
 	public Job findJobThroughEmailAddress(@PathVariable("emailAddress") String emailAddress) {
 		return jobService.findJobByEmailAddress(emailAddress);
+	}
+
+	@DeleteMapping("/deleteJobThroughEmailAddress/{emailAddress}")
+	public void deleteJobThroughEmailAddress(@PathVariable("emailAddress") String emailAddress) {
+		jobService.deleteJobByEmailAddress(emailAddress);
 	}
 }
