@@ -14,4 +14,7 @@ public interface CustomJobRepository extends JpaRepository<Job, Long> {
 	@Modifying
 	@Query(value = "DELETE FROM jobs WHERE emailaddress = :emailAddress", nativeQuery = true)
 	void deleteJobThroughEmail(String emailAddress);
+
+	@Query(value = "SELECT * FROM jobs WHERE phonenumber = :phoneNumber", nativeQuery = true)
+    Job findJobByPhoneNumber(String phoneNumber);
 }

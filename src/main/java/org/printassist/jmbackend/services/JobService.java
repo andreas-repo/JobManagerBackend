@@ -13,4 +13,5 @@ public interface JobService {
 	List<Job> getAllJobs();
 	Job findJobByEmailAddress(String emailAddress);
 	void deleteJobByEmailAddress(String emailAddress);
+	Job findJobByPhoneNumber(String phoneNumber);
 }

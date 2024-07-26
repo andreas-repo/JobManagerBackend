@@ -72,4 +72,9 @@ public class JobController {
 	public void deleteJobThroughEmailAddress(@PathVariable("emailAddress") String emailAddress) {
 		jobService.deleteJobByEmailAddress(emailAddress);
 	}
+
+	@GetMapping("/findJobByPhoneNumber/{phoneNumber}")
+	public Job findJobThroughPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
+		return jobService.findJobByPhoneNumber(phoneNumber);
+	}
 }

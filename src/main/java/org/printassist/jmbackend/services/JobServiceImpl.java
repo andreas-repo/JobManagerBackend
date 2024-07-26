@@ -78,4 +78,9 @@ public class JobServiceImpl implements JobService {
 	public void deleteJobByEmailAddress(String emailAddress) {
 		customJobRepository.deleteJobThroughEmail(emailAddress);
 	}
+
+	@Override
+	public Job findJobByPhoneNumber(String phoneNumber) {
+		return customJobRepository.findJobByPhoneNumber(phoneNumber);
+	}
 }
