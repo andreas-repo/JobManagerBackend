@@ -1,8 +1,13 @@
 package org.printassist.jmbackend.services;
 
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.activation.FileDataSource;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import org.printassist.jmbackend.controllers.models.Email;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +19,7 @@ public class EmailSenderServiceImpl {
 
     private static final Properties PROPERTIES = new Properties();
     private static final String USERNAME = "xerox6655@gmx.at";
-    private static final String PASSWORD = ""; //TODO set password
+    private static final String PASSWORD = "gfMe45xhAh9B4Zp"; //TODO set password
     private static final String HOST = "mail.gmx.net";
     private static final String PORT = "587";
     private static final boolean DEBUG = true;
@@ -53,7 +58,22 @@ public class EmailSenderServiceImpl {
             msg.setRecipients(Message.RecipientType.TO, String.valueOf(addressTo));
             msg.setSubject(email.getSubject());
             msg.setSentDate(new Date());
-            msg.setContent(email.getMessageBody(), CONTENT_TYPE);
+            //msg.setContent(email.getMessageBody(), CONTENT_TYPE);
+
+            MimeMultipart multipart = new MimeMultipart();
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(email.getMessageBody(), CONTENT_TYPE);
+            multipart.addBodyPart(messageBodyPart);
+
+            messageBodyPart = new MimeBodyPart();
+            DataSource fds = new FileDataSource(
+                    "images/printassist-logo.png");
+
+            messageBodyPart.setDataHandler(new DataHandler(fds));
+            messageBodyPart.setHeader("Content-ID", "<printassist-logo>");
+
+            msg.setContent(multipart);
+
             // send the message
             Transport.send(msg);
         } catch (MessagingException mex) {
