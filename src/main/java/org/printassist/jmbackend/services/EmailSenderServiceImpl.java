@@ -76,21 +76,6 @@ public class EmailSenderServiceImpl {
             multipart.addBodyPart(imagePart);
             msg.setContent(multipart);
 
-            /*
-            MimeMultipart multipart = new MimeMultipart();
-            BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setContent(email.getMessageBody(), CONTENT_TYPE);
-            multipart.addBodyPart(messageBodyPart);
-
-            messageBodyPart = new MimeBodyPart();
-            DataSource fds = new FileDataSource(
-                    "/images/printassist-logo.png");
-
-            messageBodyPart.setDataHandler(new DataHandler(fds));
-            messageBodyPart.setHeader("Content-ID", "printassist-logo");
-
-            msg.setContent(multipart);*/
-
             // send the message
             Transport.send(msg);
         } catch (MessagingException mex) {
