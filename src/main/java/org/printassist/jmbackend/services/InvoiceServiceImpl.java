@@ -3,12 +3,15 @@ package org.printassist.jmbackend.services;
 import lombok.AllArgsConstructor;
 import org.printassist.jmbackend.repositories.InvoiceRepository;
 import org.printassist.jmbackend.repositories.entities.Invoice;
+import org.printassist.jmbackend.repositories.entities.InvoiceNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -19,8 +22,9 @@ public class InvoiceServiceImpl implements InvoiceService{
     InvoiceRepository invoiceRepository;
 
     @Override
-    public void createInvoice(Invoice invoice) {
-        invoiceRepository.save(invoice);
+    public Invoice createInvoice(Invoice invoice) {
+        invoice.setInvoiceNumber(new InvoiceNumber(UUID.randomUUID()));
+        return invoiceRepository.save(invoice);
     }
 
     @Override
