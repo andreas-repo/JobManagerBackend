@@ -75,7 +75,7 @@ public class EmailSenderServiceImpl {
                     urlResource.getPath());
 
             messageBodyPart.setDataHandler(new DataHandler(fds));
-            messageBodyPart.setHeader("Content-ID", "<printassist-logo>");
+            messageBodyPart.setHeader("Content-ID", "printassist-logo");
 
             msg.setContent(multipart);
 
