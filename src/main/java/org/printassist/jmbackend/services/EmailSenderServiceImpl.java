@@ -8,9 +8,11 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
+import org.printassist.jmbackend.JobManagerBackendApplication;
 import org.printassist.jmbackend.controllers.models.Email;
 import org.springframework.stereotype.Service;
 
+import java.net.URL;
 import java.util.Date;
 import java.util.Properties;
 
@@ -65,9 +67,12 @@ public class EmailSenderServiceImpl {
             messageBodyPart.setContent(email.getMessageBody(), CONTENT_TYPE);
             multipart.addBodyPart(messageBodyPart);
 
+            URL urlResource = JobManagerBackendApplication.class.getClassLoader().getResource("images/printassist-logo.png");
+
             messageBodyPart = new MimeBodyPart();
+            assert urlResource != null;
             DataSource fds = new FileDataSource(
-                    "images/printassist-logo.png");
+                    urlResource.getPath());
 
             messageBodyPart.setDataHandler(new DataHandler(fds));
             messageBodyPart.setHeader("Content-ID", "<printassist-logo>");
