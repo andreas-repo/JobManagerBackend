@@ -67,10 +67,10 @@ public class EmailSenderServiceImpl {
 
             messageBodyPart = new MimeBodyPart();
             DataSource fds = new FileDataSource(
-                    "images/printassist-logo.png");
+                    "/images/printassist-logo.png");
 
             messageBodyPart.setDataHandler(new DataHandler(fds));
-            messageBodyPart.setHeader("Content-ID", "<printassist-logo>");
+            messageBodyPart.setHeader("Content-ID", "printassist-logo");
 
             msg.setContent(multipart);
 
