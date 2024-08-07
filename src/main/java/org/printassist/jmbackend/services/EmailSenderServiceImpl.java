@@ -13,6 +13,7 @@ import org.printassist.jmbackend.providers.ResourceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -60,6 +61,23 @@ public class EmailSenderServiceImpl {
             msg.setSubject(email.getSubject());
             msg.setSentDate(new Date());
 
+
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(email.getMessageBody(), CONTENT_TYPE);
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+            MimeBodyPart imagePart = new MimeBodyPart();
+            imagePart.setHeader("Content-ID", "printassist-logo");
+            imagePart.setDisposition(MimeBodyPart.INLINE);
+            DataSource fds = new FileDataSource(
+                "/images/printassist-logo.png");
+            imagePart.attachFile(fds.getName());
+            multipart.addBodyPart(imagePart);
+            msg.setContent(multipart);
+
+            /*
             MimeMultipart multipart = new MimeMultipart();
             BodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setContent(email.getMessageBody(), CONTENT_TYPE);
@@ -72,7 +90,7 @@ public class EmailSenderServiceImpl {
             messageBodyPart.setDataHandler(new DataHandler(fds));
             messageBodyPart.setHeader("Content-ID", "printassist-logo");
 
-            msg.setContent(multipart);
+            msg.setContent(multipart);*/
 
             // send the message
             Transport.send(msg);
@@ -82,8 +100,10 @@ public class EmailSenderServiceImpl {
             if ((ex = mex.getNextException()) != null) {
                 ex.printStackTrace();
             }
-        }
+        } catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
-        return email;
+		return email;
     }
 }
