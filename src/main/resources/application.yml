@@ -15,3 +15,9 @@ spring:
         hibernate:
           ddl-auto: update
 
+mail:
+    smtp:
+        user: xerox6655@gmx.at
+        password: gfMe45xhAh9B4Zp
+        host: mail.gmx.net
+        port: 587
