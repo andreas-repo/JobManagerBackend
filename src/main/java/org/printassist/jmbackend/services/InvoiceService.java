@@ -6,7 +6,7 @@ import org.printassist.jmbackend.repositories.entities.Invoice;
 import java.util.List;
 
 public interface InvoiceService {
-    void createInvoice(Invoice invoice);
+    Invoice createInvoice(Invoice invoice);
     Invoice getInvoice(long id);
     Invoice updateInvoice(long id, Invoice invoice);
     void deleteInvoice(long id);

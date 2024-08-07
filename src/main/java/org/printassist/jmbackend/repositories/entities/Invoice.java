@@ -16,28 +16,29 @@ public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstNameCustomer;
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastNameCustomer;
-    @Column(name = "emailAddress")
+    @Column(name = "email_address")
     private String emailAddressCustomer;
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     private String phoneNumberCustomer;
-    @Column(name = "printerType")
+    @Column(name = "printer_type")
     private String printerTypeCustomer;
-    @Column(name = "dateOfServiceRenderet")
+    @Column(name = "date_of_service_renderet")
     private String dateOfServiceRenderet;
-    @Column(name = "startTime")
+    @Column(name = "start_time")
     private String startTimeOfService;
-    @Column(name = "endTime")
+    @Column(name = "end_time")
     private String endTimeOfService;
     @Column(name = "notes")
     private String notes;
-    @Column(name = "totalCost")
+    @Column(name = "total_cost")
     private String totalCost;
-    @Column(name = "paymentMethod")
+    @Column(name = "payment_method")
     private String paymentMethod;
-    @Column(name = "invoiceNumber")
-    private String invoiceNumber;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_number", referencedColumnName = "id")
+    private InvoiceNumber invoiceNumber;
 }
