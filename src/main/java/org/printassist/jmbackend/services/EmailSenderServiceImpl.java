@@ -1,8 +1,5 @@
 package org.printassist.jmbackend.services;
 
-import jakarta.activation.DataHandler;
-import jakarta.activation.DataSource;
-import jakarta.activation.FileDataSource;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
@@ -10,7 +7,6 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import org.printassist.jmbackend.controllers.models.Email;
 import org.printassist.jmbackend.providers.ResourceProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -71,7 +67,7 @@ public class EmailSenderServiceImpl {
 
             MimeBodyPart imagePart = new MimeBodyPart();
             imagePart.setHeader("Content-ID", "printassist-logo");
-            imagePart.setDisposition(MimeBodyPart.INLINE);
+            imagePart.setDisposition(Part.INLINE);
             imagePart.attachFile(Objects.requireNonNull(this.getClass().getResource("/images/printassist-logo.png")).getFile());
             multipart.addBodyPart(imagePart);
             msg.setContent(multipart);
