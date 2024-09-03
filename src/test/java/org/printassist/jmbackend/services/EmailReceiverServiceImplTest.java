@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class EmailReceiverServiceImplTest {
 
 	@InjectMocks
@@ -16,6 +18,9 @@ class EmailReceiverServiceImplTest {
 	@Test
 	void receiveUnreadMails_whenMethodIsCalled_thenReturnsAllUnreadMessages() throws MessagingException {
 		List<Message> receivedMessages = emailReceiverService.receiveUnreadMails();
+
+		assertThat(receivedMessages).isNotNull();
+		assertThat(receivedMessages.get(0).getSubject()).isNotEmpty();
 	}
 
 }
