@@ -1,14 +1,19 @@
 package org.printassist.jmbackend.services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.mail.Flags;
 import jakarta.mail.Folder;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.Store;
+import jakarta.mail.search.FlagTerm;
 
 @Service
 public class EmailReceiverServiceImpl {
@@ -30,7 +35,7 @@ public class EmailReceiverServiceImpl {
 			store.connect("pop.gmail.com", USER, PASSWORD);
 			//create folder object and open it
 			mailFolder = store.getFolder("INBOX");
-			mailFolder.open(Folder.READ_ONLY);
+			mailFolder.open(Folder.READ_WRITE);
 
 			//retrieve messages from folder in array form and print them
 			Message foundMessage = null;
@@ -46,5 +51,49 @@ public class EmailReceiverServiceImpl {
 				store.close();
 			}
 		}
+	}
+
+	/**
+	 * This method retrieves unread messages from inbox and return them as List
+	 * @return sorted unread messages as List<Message> object
+	 * @throws MessagingException -> throws new RuntimeException
+	 */
+	public List<Message> receiveUnreadMails() throws MessagingException {
+		List<Message> retrievedAndSortedMessages = new ArrayList<>();
+		Session session = Session.getDefaultInstance(new Properties());
+		//imap is necessary because it supports flags
+		Store store = session.getStore("imaps");
+		store.connect("imap.gmx.net", 993, USER, PASSWORD);
+		Folder inbox = store.getFolder("INBOX");
+		//inbox.open(Folder.READ_ONLY);
+		inbox.open(Folder.READ_WRITE);
+
+		//Fetch unread messages from inbox folder
+		Message[] messages = inbox.search(
+			new FlagTerm(new Flags(Flags.Flag.SEEN), false)
+		);
+
+		//Sort messages from recent to oldest
+		Arrays.sort(messages, (m1, m2) -> {
+			try {
+				return m2.getSentDate().compareTo(m1.getSentDate());
+			} catch (MessagingException e) {
+				throw new RuntimeException(e); //TODO create custom exception
+			}
+		});
+
+		//work through retrieved messages
+		for (Message message : messages) {
+			System.out.println(
+				"sendDate:" + message.getSentDate()
+				+
+					" subject:" + message.getSubject()
+			);
+			retrievedAndSortedMessages.add(message);
+			//set message to read
+			message.setFlag(Flags.Flag.SEEN, true);
+		}
+
+		return retrievedAndSortedMessages;
 	}
 }
