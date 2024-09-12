@@ -18,11 +18,11 @@ spring:
 mail:
     smtp:
         user: xerox6655@gmx.at
-        password:
+        password: gfMe45xhAh9B4Zp
         host: mail.gmx.net
         port: 587
     imap:
         user: xerox6655@gmx.at
-        password:
+        password: gfMe45xhAh9B4Zp
         host: imap.gmx.net
         port: 993

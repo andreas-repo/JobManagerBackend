@@ -1,10 +1,14 @@
 package org.printassist.jmbackend.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
+import jakarta.mail.MessagingException;
+import org.printassist.jmbackend.controllers.models.Email;
 import org.printassist.jmbackend.controllers.responses.HttpResponse;
 import org.printassist.jmbackend.exceptions.JobNotFoundException;
 import org.printassist.jmbackend.repositories.entities.Job;
+import org.printassist.jmbackend.services.EmailReceiverServiceImpl;
 import org.printassist.jmbackend.services.JobService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,12 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 
+import static org.printassist.jmbackend.utils.Mapper.mapMailsToJobs;
+
 @RestController
 @AllArgsConstructor
 public class JobController {
 
 	private static final String JOB_SUCCESS_TEXT = "Job successful ";
 	private final JobService jobService;
+	private final EmailReceiverServiceImpl emailReceiverService;
 
 	@PostMapping("/createJob")
 	public ResponseEntity<HttpResponse> createJob(@RequestBody Job job) {
@@ -60,7 +67,11 @@ public class JobController {
 	}
 
 	@GetMapping("/getAllJobs")
-	public List<Job> getAllJobs() {
+	public List<Job> getAllJobs() throws MessagingException, IOException {
+		List<Email> newMailsList = emailReceiverService.receiveEmailMessages();
+		List<Job> newJobs = mapMailsToJobs(newMailsList);
+		System.out.println(newJobs); //TODO change to logging
+		newJobs.forEach(jobService::createJob);
 		return jobService.getAllJobs();
 	}
 
