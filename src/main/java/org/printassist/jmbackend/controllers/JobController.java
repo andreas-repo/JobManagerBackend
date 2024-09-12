@@ -31,6 +31,7 @@ public class JobController {
 		} catch (Exception ex) {
 			return ResponseEntity.badRequest().body(HttpResponse.builder().responseText("Error adding job").build());
 		}
+
 		return ResponseEntity.ok(HttpResponse.builder().responseText(JOB_SUCCESS_TEXT + "created!").responseBody(job).build());
 	}
 
