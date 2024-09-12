@@ -22,7 +22,7 @@ public class ResourceProvider {
 	@Value("${mail.smtp.port}")
 	private String port;
 
-	@Value("${mail.imap.host}")
+	@Value("${mail.imap.user}")
 	private String imapUser;
 
 	@Value("${mail.imap.password}")
