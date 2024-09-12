@@ -3,9 +3,9 @@ package org.printassist.jmbackend.services;
 import java.io.IOException;
 import java.util.Properties;
 
-import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import org.printassist.jmbackend.controllers.models.Email;
+import org.printassist.jmbackend.providers.ResourceProvider;
 import org.springframework.stereotype.Service;
 
 import jakarta.mail.Folder;
@@ -16,14 +16,16 @@ import java.util.*;
 
 @Service
 public class EmailReceiverServiceImpl {
-	private Folder mailFolder;
-	private static final String PASSWORD = "gfMe45xhAh9B4Zp";
-	private static final String USER = "xerox6655@gmx.at";
+	private final ResourceProvider resourceProvider;
 
-	public List<Email> receiveEmailMessages() throws MessagingException, IOException {
+    public EmailReceiverServiceImpl(ResourceProvider resourceProvider) {
+        this.resourceProvider = resourceProvider;
+    }
+
+    public List<Email> receiveEmailMessages() throws MessagingException, IOException {
 		Session session = Session.getDefaultInstance(new Properties());
 		Store store = session.getStore("imaps");
-		store.connect("imap.gmx.net", 993, USER, PASSWORD);
+		store.connect(resourceProvider.getImapHost(), Integer.parseInt(resourceProvider.getImapPort()), resourceProvider.getUser(), resourceProvider.getPassword());
 		Folder inbox = store.getFolder("INBOX");
 		inbox.open(Folder.READ_WRITE);
 
@@ -72,7 +74,7 @@ public class EmailReceiverServiceImpl {
 		for (int i = 0; i < mimeMultipart.getCount(); i++) {
 			BodyPart bodyPart = mimeMultipart.getBodyPart(i);
 			if (bodyPart.isMimeType("text/plain")) {
-				return result + "\n" + bodyPart.getContent(); // without return, same text appears twice in my tests
+				return result + bodyPart.getContent(); // without return, same text appears twice in my tests
 			}
 			result += this.parseBodyPart(bodyPart);
 		}
@@ -81,7 +83,7 @@ public class EmailReceiverServiceImpl {
 
 	private String parseBodyPart(BodyPart bodyPart) throws MessagingException, IOException {
 		if (bodyPart.isMimeType("text/html")) {
-			return "\n" + bodyPart.getContent().toString();
+			return bodyPart.getContent().toString();
 
 		}
 		if (bodyPart.getContent() instanceof MimeMultipart){

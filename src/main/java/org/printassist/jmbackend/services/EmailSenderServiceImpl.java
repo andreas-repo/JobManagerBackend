@@ -16,7 +16,7 @@ import java.util.Properties;
 
 @Service
 public class EmailSenderServiceImpl {
-    private ResourceProvider resourceProvider;
+    private final ResourceProvider resourceProvider;
     private static final Properties PROPERTIES = new Properties();
     private static final boolean DEBUG = true;
     private static final String CONTENT_TYPE = "text/html";

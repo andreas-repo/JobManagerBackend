@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Component
 public class ResourceProvider {
-
 	@Value("${mail.smtp.user}")
 	private String user;
 
@@ -23,4 +22,15 @@ public class ResourceProvider {
 	@Value("${mail.smtp.port}")
 	private String port;
 
+	@Value("${mail.imap.host}")
+	private String imapUser;
+
+	@Value("${mail.imap.password}")
+	private String imapPassword;
+
+	@Value("${mail.imap.host}")
+	private String imapHost;
+
+	@Value("${mail.imap.port}")
+	private String imapPort;
 }
